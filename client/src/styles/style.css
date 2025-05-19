@@ -1,0 +1,196 @@
+
+/* GENERAL styles from top to bottom*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1.2rem;
+  color: white;
+  
+  background-color: #f5f5f5;
+
+}
+
+.page-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  min-height: 100vh;
+  min-width: 100vw;
+
+  overflow: hidden;
+}
+
+.page-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 1rem;
+}
+
+.form-panel {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  
+  width: 100%;
+  
+  z-index: 1;
+}
+
+.switch-page {
+  font-size: 0.5rem;
+  margin-top: 1rem;
+  color: white;
+}
+
+/* GENERAL UTILS styles error */
+
+.error-message {
+  color: red;
+  text-align: center;
+  font-size: 0.9rem;
+  z-index: 50;
+}
+
+.error-text {
+  color: red;
+  font-size: 0.4rem;
+  z-index: 50;
+}
+
+.error-border {
+  border-color: red;
+}
+
+/* LOGIN styles from top to bottom */ 
+
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 1;
+  pointer-events: none; /* évite qu’on clique dessus */
+}
+
+.login-nous {
+  right: 10px;
+  top: 0px;
+  position: fixed;
+  color: white;
+  font-size: 0.7rem;
+  z-index: 10;
+}
+
+.login-nous:hover {
+  color: blue;
+}
+
+.page-title.login {
+  position: relative;
+
+  margin-bottom: 7%;
+
+  color:white;
+  font-size: 4rem;
+}
+
+.form-panel.login {
+  gap: 0.5rem;
+}
+
+.underform-menu.login {
+  margin-top: -10px;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  display: inline-block;
+  align-items: center;
+  flex-direction: row;
+}
+
+.underform-menu.login a{
+  font-size: 0.9rem;
+  margin-left: 20px;
+}
+
+.underform-menu.login input {
+  height: 0.9rem;
+  width: 0.9rem;
+  margin-right: 5px;
+}
+
+.social-link.login{
+  display: flex;
+  flex-direction: row;
+  gap: 0.3rem;
+  margin-bottom: 3rem;
+}
+
+.login-newaccount {
+  font-size: 1.2rem;
+}
+
+/* REGISTER styles from top to bottom */
+
+.page-wrapper.inscription-page {
+  background-image: url("/RegisterBackground.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.form-panel.register {
+  gap: 0.2rem;
+}
+
+.register-submit {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* RECOVERY styles from top to bottom */ 
+
+.page-wrapper.recovery-page {
+  background-image: url("/recoveryBackground.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.form-panel.recovery-page {
+  padding: 0.1rem;
+  color: white;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.recovery-buttons {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  gap:0.5rem;
+  margin: 0.5rem
+}
+
+.recovery-link {
+  margin-top: 1rem;
+}

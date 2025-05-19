@@ -1,0 +1,327 @@
+/* Git Button */ 
+
+.git-button {
+  border: none;
+  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition-duration: .4s;
+  cursor: pointer;
+  position: relative;
+  background-color: rgb(31, 31, 31);
+  overflow: hidden;
+}
+
+.svgIcon {
+  transition-duration: .3s;
+  height: 3rem;
+}
+
+.svgIcon path {
+  fill: white;
+}
+
+.git-text {
+  position: absolute;
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+  opacity: 0;
+  transition-duration: .4s;
+  font-size: 1rem;
+}
+
+.git-button:hover {
+  width: 6rem;
+  transition-duration: .4s;
+  border-radius: 30px;
+}
+
+.git-button:hover .git-text {
+  opacity: 1;
+  transition-duration: .4s;
+}
+
+.git-button:hover .svgIcon {
+  opacity: 0;
+  transition-duration: .3s;
+}
+
+/* Apple Button */ 
+
+.apple-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  padding: 5px 12px;
+  border: 3px solid rgb(189, 189, 189);
+  background-color: rgb(15, 15, 15);
+  border-radius: 50px;
+  gap: 0.3rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0px 0px 100px -30px rgb(255, 255, 255);
+}
+
+.apple-button svg {
+  height: 2rem;
+  width: 2rem;
+}
+
+.apple-button svg path {
+  fill: white;
+  transition: all 0.3s;
+}
+
+.apple-button:hover {
+  background-color: rgb(236, 236, 236);
+  border: 3px solid rgb(138, 138, 138);
+  width: 6rem;
+}
+
+.apple-button:hover svg path {
+  fill: black;
+}
+
+.apple-button:hover svg {
+  transform: translateX(-20px);
+  transition: transform 0.3s ease;
+}
+
+.apple-text {
+  position: absolute;
+  color: black;
+  font-weight: 600;
+  font-size: 0.8rem;
+  opacity: 0;
+  transform: translateX(0);
+  transition-duration: .4s;
+  white-space: nowrap;
+}
+
+.apple-button:hover .apple-text {
+  opacity: 1;
+  transform: translateX(20px);
+  transition-duration: .4s;
+}
+
+/* Google Button */ 
+
+.button.google {
+  max-width: 200px;
+  display: flex;
+  padding: 0.45rem;
+  text-align: center;
+  text-transform: uppercase;
+  vertical-align: middle;
+  align-items: center;
+  border-radius: 2rem;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  gap: 0.75rem;
+  color: rgb(65, 63, 63);
+  background-color: #fff;
+  cursor: pointer;
+  transition: all .6s ease;
+}
+
+.google-radiant {
+  position: absolute;
+  opacity: 0;
+  font-weight: bold;
+  font-size: 1rem;
+  padding-left: 0.5rem;
+  background: linear-gradient(
+    90deg,
+    #4285F4,
+    #EA4335,
+    #FBBC05,
+    #34A853,
+    #4285F4
+    );
+    background-size: 300%;
+    background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: googleShift 3s linear infinite;
+}
+
+@keyframes googleShift {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 100%;
+  }
+}
+
+.button.google .google-svg {
+  height: 3rem;
+  width: 3.6em;
+}
+
+.button.google:hover {
+  width: 6rem;
+  transition-duration: .4s;
+  border-radius: 40px;
+}
+
+.button.google:hover .google-radiant {
+  opacity: 1;
+  transition-duration: .4s;
+}
+
+.button.google:hover .google-svg {
+  opacity: 0;
+  transition-duration: .3s;
+}
+
+/* Goldens buttons */
+
+.Btn {
+  width: 18rem;
+  height: 2rem;
+  border: none;
+  border-radius: 15px;
+  background: linear-gradient(to right,#77530a,#ffd277,#77530a,#77530a,#ffd277,#77530a);
+  background-size: 250%;
+  background-position: left;
+  color: #ffd277;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition-duration: 1s;
+  overflow: hidden;
+}
+
+.Btn::before {
+  position: relative;
+  color: #ffd277;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 97%;
+  height: 90%;
+  border-radius: 8px;
+  transition-duration: 1s;
+  background-color: rgba(0, 0, 0, 0.842);
+  background-size: 200%;
+  font-size: 0.8rem
+}
+
+.Btn.login::before {
+    content:"Se connecter";
+    font-size: 1.5rem;
+}
+
+.Btn.recovery-password::before {
+  content: "Mot de passe";
+}
+
+.Btn.recovery-username::before {
+  content: "Identifiant";
+}
+
+.Btn.register::before {
+  content: "S'inscire";
+}
+
+.Btn:hover {
+  background-position: right;
+  transition-duration: 1s;
+}
+
+.Btn:hover::before {
+  background-position: right;
+  transition-duration: 1s;
+}
+
+.Btn:active {
+  transform: scale(0.95);
+}
+
+/* Link to */
+
+.btn-shine {
+  display: inline-block;
+  position: relative;
+  color: #fff;
+  background: linear-gradient(to right, #9f9f9f 0, #fff 10%, #868686 20%);
+  background-position: 0;
+  /* Nécessaire pour l'effet de texte en dégradé animé (supporté sur Chrome/Safari) */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s infinite linear;
+  animation-fill-mode: forwards;
+  -webkit-text-size-adjust: none;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  font-family: "Poppins", sans-serif;
+}
+@-moz-keyframes shine {
+  0% {
+    background-position: 0;
+  }
+  60% {
+    background-position: 180px;
+  }
+  100% {
+    background-position: 180px;
+  }
+}
+@-webkit-keyframes shine {
+  0% {
+    background-position: 0;
+  }
+  60% {
+    background-position: 180px;
+  }
+  100% {
+    background-position: 180px;
+  }
+}
+@-o-keyframes shine {
+  0% {
+    background-position: 0;
+  }
+  60% {
+    background-position: 180px;
+  }
+  100% {
+    background-position: 180px;
+  }
+}
+@keyframes shine {
+  0% {
+    background-position: 0;
+  }
+  60% {
+    background-position: 180px;
+  }
+  100% {
+    background-position: 180px;
+  }
+}
+
+.btn-shine::after {
+  position: absolute;
+  content: "";
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(to right, #9f9f9f 0, #fff 10%, #868686 20%);
+  background-size: 300%;
+  animation: shine 3s infinite linear;
+  opacity: 0;
+}
+
+.btn-shine:hover::after{
+  opacity: 1;
+}
