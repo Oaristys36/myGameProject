@@ -40,12 +40,22 @@ html, body {
   padding: 1rem;
 }
 
+.page-title {
+  position: fixed;
+
+  top: 5%;
+
+  color:white;
+  font-size: 3.5rem;
+}
+
 .form-panel {
   display: flex;
-  position: relative;
   flex-direction: column;
-  align-items: center;
   
+  position: relative;
+  align-items: center;
+
   width: 100%;
   
   z-index: 1;
@@ -90,36 +100,14 @@ html, body {
   pointer-events: none; /* évite qu’on clique dessus */
 }
 
-.login-nous {
-  right: 10px;
-  top: 0px;
-  position: fixed;
-  color: white;
-  font-size: 0.7rem;
-  z-index: 10;
-}
-
-.login-nous:hover {
-  color: blue;
-}
-
-.page-title.login {
-  position: relative;
-
-  margin-bottom: 7%;
-
-  color:white;
-  font-size: 4rem;
-}
-
 .form-panel.login {
   gap: 0.5rem;
+  margin-top: 5%;
 }
 
 .underform-menu.login {
   margin-top: -10px;
-  margin-bottom: 2rem;
-  font-size: 1.2rem;
+  margin-bottom: 0.1rem;
   display: inline-block;
   align-items: center;
   flex-direction: row;
@@ -136,14 +124,20 @@ html, body {
   margin-right: 5px;
 }
 
+.login-submit {
+  margin-bottom: 1.5rem;
+  background-color: red;
+}
+
 .social-link.login{
   display: flex;
   flex-direction: row;
   gap: 0.3rem;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 }
 
 .login-newaccount {
+  position: relative;
   font-size: 1.2rem;
 }
 

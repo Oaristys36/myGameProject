@@ -5,11 +5,12 @@ type GoldenButtonProps = {
     variant?: 'default' | 'recovery-password' | 'recovery-username' | 'register' | 'login';
     onClick?: () => void;
     type?: 'submit' | 'button' | 'reset';
+    className?: string;
 };
 
-export function GoldenButton({ variant = 'default', onClick}: GoldenButtonProps) {
-    const className = `Btn ${variant !== 'default' ? variant : ''}`;
-    return <button className={className} onClick={(onClick)}/>
+export function GoldenButton({ variant = 'default', onClick, className = '', type = 'button'}: GoldenButtonProps) {
+    const buttonClass = `Btn ${variant !== 'default' ? variant : ''} ${className}`.trim();
+    return <button className={buttonClass} onClick={(onClick)} type={type}/>
 };
 
 type ShineLinkProps = {

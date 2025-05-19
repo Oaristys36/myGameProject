@@ -211,12 +211,12 @@
   transition-duration: 1s;
   background-color: rgba(0, 0, 0, 0.842);
   background-size: 200%;
-  font-size: 0.8rem
+  font-size: 1.5rem
 }
 
 .Btn.login::before {
     content:"Se connecter";
-    font-size: 1.5rem;
+
 }
 
 .Btn.recovery-password::before {
@@ -263,6 +263,7 @@
   text-decoration: none;
   white-space: nowrap;
   font-family: "Poppins", sans-serif;
+  font-size: 1.3rem;
 }
 @-moz-keyframes shine {
   0% {

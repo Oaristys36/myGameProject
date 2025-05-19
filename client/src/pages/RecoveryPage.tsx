@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { GoldenButton, ShineLink } from "../components/Buttons";
 import { getFieldColorStatus, isValidEmail, runValidators } from "../utils/userUtils";
 import { InputField } from "../components/InputField";
+import { Footer } from "../components/Footer";
 
 export const RecoveryPage: React.FC = () => {
     
@@ -64,8 +65,8 @@ export const RecoveryPage: React.FC = () => {
 
     return(
         <div className="page-wrapper recovery-page">
-            <div className="form-panel recovery-page">
-                <h1>Vous n'avez pas encore perdu</h1>
+            <div className="form-panel recovery-page">   
+                <h1 className="page-title recovery">Vous n'avez pas encore perdu</h1>
                 <InputField
                     type="email"
                     className={submitted && fieldErrors.email ? 'input error-border' : 'input recovery-email'}
@@ -86,6 +87,7 @@ export const RecoveryPage: React.FC = () => {
                 </div> 
                     <div className="recovery-link"><ShineLink to="/">Se connecter</ShineLink></div>
             </div>
+            <Footer/>
         </div>
     );
 };

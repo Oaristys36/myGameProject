@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { isValidUsernameForLogin, isValidPasswordForLogin, runValidators, getFieldColorStatus } from "../../src/utils/userUtils";
 import { GoldenButton, ShineLink, GoogleButton, AppleButton } from "../components/Buttons";
 import { TopBar } from "../components/topBar";
+import { Footer } from "../components/Footer"; 
 import { InputField } from "../components/InputField";
 
 type LoginResponse = {
@@ -120,7 +121,7 @@ const LoginPage: React.FC = () => {
                     <input type="checkbox"/>Se souvenir</label>
                     <ShineLink to="/RecoveryPage"> Mot de passe oublié ? </ShineLink>
                 </div>
-                <GoldenButton variant="login" type="submit"></GoldenButton>
+                <GoldenButton variant="login" type="submit" className="login-submit"></GoldenButton>
                 <p>Se connecter avec : </p>
                 <div className="social-link login">
                     <GoogleButton/>
@@ -132,7 +133,8 @@ const LoginPage: React.FC = () => {
                     </p>
                 </div>     
             </form>
-            </div>
+                <Footer/>
+            </div>       
         </div>
     );
 };

@@ -2,6 +2,8 @@ import {useState} from "react";
 import { isValidUsernameForRegister, isValidPasswordForRegister, runValidators, isValidEmail, getFieldColorStatus } from "../../src/utils/userUtils";
 import { GoldenButton, ShineLink } from "../components/Buttons";
 import { InputField } from "../components/InputField";
+import { Footer } from "../components/Footer";
+import { TopBar } from "../components/topBar";
 
 type RegisterResponse = {
     success: boolean; 
@@ -96,8 +98,9 @@ const RegisterPage:  React.FC = () => {
 
     return (
         <div className="page-wrapper inscription-page">
+                <TopBar/>  
             <form className="form-panel register" onSubmit={handleRegister}>
-            <h1>Inscription</h1>
+            <h1 className="page-title register">Inscription</h1>
                 {errorMessage && (
                 <div className="error-message" style={{ marginBottom: "0.2rem"}}>
                     {errorMessage}
@@ -157,6 +160,7 @@ const RegisterPage:  React.FC = () => {
                     {successMessage}
                 </div>
              )}
+             <Footer/>
         </div>
     );
 };
