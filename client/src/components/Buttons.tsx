@@ -29,6 +29,7 @@ export function ShineLink({ to, children, className }: ShineLinkProps) {
 
 type GenericButtonProps = {
     onClick?: () => void;
+    className?: string;
 };
 
 export function GoogleButton({ onClick }: GenericButtonProps) {
@@ -71,5 +72,12 @@ export function AppleButton({ onClick }: GenericButtonProps) {
             <span className="apple-text">Apple</span>
         </button>
     )
-}
+};
+
+export function MiniMazarinButton({ onClick, className }: GenericButtonProps) {
+    const buttonClass = `mazarin-button ${className}`.trim();
+    return (
+        <button className={buttonClass} onClick={onClick}>?</button>
+    )
+};
  

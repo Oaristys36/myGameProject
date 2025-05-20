@@ -11,29 +11,54 @@ type InputFieldProps = {
     autoCapitalize?: string;
     autoCorrect?: string;
     autoComplete?: string;
+    minLength?: number;
+    maxLength?: number;
+    required?: boolean;
+    disabled?: boolean;
+    onFocus?: () => void;
+    onBlur?: () => void;
 };
 
-export function InputField ({
-    value,
-    onChange,
-    placeholder ='',
-    type = 'text',
-    name,
-    className = 'input',
-    autoComplete = ''
-}: InputFieldProps) {
-
-    return(
-        <input 
+export const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
+    (
+        {
+        value,
+        onChange,
+        placeholder = '',
+        type = 'text',
+        name,
+        className = 'input',
+        autoComplete = '',
+        autoCapitalize = 'none',
+        autoCorrect = 'off',
+        minLength,
+        maxLength,
+        required,
+        disabled,
+        onFocus,
+        onBlur  
+        },
+        ref
+    ) => {
+        return (
+        <input
+        ref={ref}
         type={type}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
         name={name}
-        autoCapitalize='none'
-        autoCorrect='off'
-        autoComplete={autoComplete}
         className={className}
-        />
-    );
-}
+        autoCapitalize={autoCapitalize}
+        autoCorrect={autoCorrect}
+        autoComplete={autoComplete}
+        minLength={minLength}
+        maxLength={maxLength}
+        required={required}
+        disabled={disabled}
+        onFocus={onFocus}
+        onBlur={onBlur}
+      />
+        );
+    }
+);

@@ -61,6 +61,20 @@ html, body {
   z-index: 1;
 }
 
+.underform-menu {
+  margin-top: -10px;
+  margin-bottom: 0.1rem;
+  display: inline-block;
+  align-items: center;
+  flex-direction: row;
+}
+
+.underform-menu input {
+  height: 0.9rem;
+  width: 0.9rem;
+  margin-right: 5px;
+}
+
 .switch-page {
   font-size: 0.5rem;
   margin-top: 1rem;
@@ -78,7 +92,7 @@ html, body {
 
 .error-text {
   color: red;
-  font-size: 0.4rem;
+  font-size: 0.8rem;
   z-index: 50;
 }
 
@@ -105,23 +119,9 @@ html, body {
   margin-top: 5%;
 }
 
-.underform-menu.login {
-  margin-top: -10px;
-  margin-bottom: 0.1rem;
-  display: inline-block;
-  align-items: center;
-  flex-direction: row;
-}
-
 .underform-menu.login a{
   font-size: 0.9rem;
   margin-left: 20px;
-}
-
-.underform-menu.login input {
-  height: 0.9rem;
-  width: 0.9rem;
-  margin-right: 5px;
 }
 
 .login-submit {
@@ -160,6 +160,7 @@ html, body {
   text-align: center;
   margin-top: 1rem;
 }
+
 
 /* RECOVERY styles from top to bottom */ 
 

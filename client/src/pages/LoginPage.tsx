@@ -117,8 +117,11 @@ const LoginPage: React.FC = () => {
                 placeholder="Mot de passe"
                 autoComplete="current-password"
                 />
-                <div className="underform-menu login"><label>
-                    <input type="checkbox"/>Se souvenir</label>
+                <div className="underform-menu login">
+                    <label>
+                        <input type="checkbox"/>
+                        Se souvenir
+                    </label>
                     <ShineLink to="/RecoveryPage"> Mot de passe oublié ? </ShineLink>
                 </div>
                 <GoldenButton variant="login" type="submit" className="login-submit"></GoldenButton>

@@ -1,7 +1,7 @@
 const charAllowed = /[a-zA-Z0-9éÉ_-]/;
 const regexNumber = /[\d]/
 const specialAllowed = /[!%-_=+]/;
-const minCharUsername = 5;
+const minCharUsername = 3;
 const minCharPassword = 8;
 const isValidEmails = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
