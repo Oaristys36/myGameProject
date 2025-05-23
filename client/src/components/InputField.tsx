@@ -19,27 +19,17 @@ type InputFieldProps = {
     onBlur?: () => void;
 };
 
+type CheckboxFieldProps = {
+    checked: boolean;
+    onChange: (e:React.ChangeEvent<HTMLInputElement>) => void;
+    label: string | React.ReactNode;
+    name?: string;
+    className?: string;
+    required?: boolean;
+}
+
 export const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
-    (
-        {
-        value,
-        onChange,
-        placeholder = '',
-        type = 'text',
-        name,
-        className = 'input',
-        autoComplete = '',
-        autoCapitalize = 'none',
-        autoCorrect = 'off',
-        minLength,
-        maxLength,
-        required,
-        disabled,
-        onFocus,
-        onBlur  
-        },
-        ref
-    ) => {
+    ({ value, onChange, placeholder = '', type = 'text', name, className = 'input', autoComplete = '', autoCapitalize = 'none', autoCorrect = 'off', minLength, maxLength, required, disabled, onFocus, onBlur }, ref) => {
         return (
         <input
         ref={ref}
@@ -60,5 +50,24 @@ export const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
         onBlur={onBlur}
       />
         );
+    }
+);
+
+export const CheckboxField = React.forwardRef<HTMLInputElement, CheckboxFieldProps>(
+    ({ checked, onChange, label, name, className = '', required = false }, ref) => { 
+        return (
+            <label className={`checkbox-container ${className}`}>
+                <input
+                type="checkbox"
+                checked={checked}
+                onChange={onChange}
+                name={name}
+                required={required}
+                className={className}
+                ref={ref}
+                />
+                <span className="checkbox-label">{label}</span>
+            </label>
+        ); 
     }
 );

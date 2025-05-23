@@ -8,28 +8,22 @@ type GoldenButtonProps = {
     className?: string;
 };
 
-export function GoldenButton({ variant = 'default', onClick, className = '', type = 'button'}: GoldenButtonProps) {
-    const buttonClass = `Btn ${variant !== 'default' ? variant : ''} ${className}`.trim();
-    return <button className={buttonClass} onClick={(onClick)} type={type}/>
-};
-
 type ShineLinkProps = {
   to: string;
   children: React.ReactNode;
   className?: string;
 };
 
-export function ShineLink({ to, children, className }: ShineLinkProps) {
-    return(
-        <a href={to} className={`btn-shine ${className ?? ''}`}>
-            {children}
-        </a>
-    );
-};
-
 type GenericButtonProps = {
     onClick?: () => void;
     className?: string;
+};
+
+/* BUTTONS */ 
+
+export function GoldenButton({ variant = 'default', onClick, className = '', type = 'button'}: GoldenButtonProps) {
+    const buttonClass = `Btn ${variant !== 'default' ? variant : ''} ${className}`.trim();
+    return <button className={buttonClass} onClick={(onClick)} type={type}/>
 };
 
 export function GoogleButton({ onClick }: GenericButtonProps) {
@@ -80,4 +74,16 @@ export function MiniMazarinButton({ onClick, className }: GenericButtonProps) {
         <button className={buttonClass} onClick={onClick}>?</button>
     )
 };
+
+/* LINK */ 
+
+export function ShineLink({ to, children, className }: ShineLinkProps) {
+    return(
+        <a href={to} className={`btn-shine ${className ?? ''}`}>
+            {children}
+        </a>
+    );
+};
+
+
  

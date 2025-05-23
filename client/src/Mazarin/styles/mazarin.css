@@ -78,7 +78,7 @@
 .mazarin-highlight {
   position: relative;
   transform: scale(1.15);
-  border: 3px solid #2d79f3;
+  border: 2px solid #2d79f3;
   transition: all 1s ease;
   box-shadow:
         0 0 15px rgba(255, 255, 255, 0.651),
@@ -91,8 +91,6 @@
 .mazarin-mini {
   position: fixed;
   bottom: 60px;
-  right: 40px;
-  height: 50px;
-  width: 50px;
+  right: 30px;
 }
 

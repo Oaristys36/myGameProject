@@ -1,7 +1,7 @@
 import {useState, useRef } from "react";
 import { isValidUsernameForRegister, isValidPasswordForRegister, runValidators, isValidEmail, getFieldColorStatus } from "../../src/utils/userUtils";
 import { GoldenButton, ShineLink } from "../components/Buttons";
-import { InputField } from "../components/InputField";
+import { CheckboxField, InputField } from "../components/InputField";
 import { Footer } from "../components/Footer";
 import { TopBar } from "../components/topBar";
 import { Mazarin } from "../Mazarin/Mazarin";
@@ -21,6 +21,7 @@ const RegisterPage:  React.FC = () => {
     const [successMessage, setSuccessMessage] = useState("");
     const [fieldErrors, setFieldErrors] = useState<{newUsername?: boolean, newPassword?: boolean, confirmePassword?: boolean, newMail?: boolean}>({});
     const [submitted, setSubmitted] = useState(false);
+    const [acceptCGU, setAcceptCGU] = useState(false);
     const usernameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
@@ -29,23 +30,38 @@ const RegisterPage:  React.FC = () => {
     const steps = [
         {
             targetRef: usernameRef,
-            message: "Votre identifiant doit contenir au moins 5 caractères. Il sera utilisé pour vous connecter."
+            message: "Votre identifiant doit contenir au moins 3 caractères. Il sera utilisé pour vous connecter.",
+            validate: () => {
+                const el = usernameRef.current as HTMLInputElement | null;
+                return !!el?.value.trim();
+            }
         },
         {
             targetRef: emailRef,
-            message: "L'adresse email permet de retrouver votre compte en cas de perte."
+            message: "L'adresse email permet de retrouver votre compte en cas de perte.",
+            validate: () => {
+                const el = emailRef.current as HTMLInputElement | null;
+                return !!el?.value.trim();
+            }
         },
         {
             targetRef: passwordRef,
-            message: "Choisissez un mot de passe fort avec lettres, chiffres, et symboles si possible."
+            message: "Choisissez un mot de passe fort avec lettres, chiffres, et symboles si possible.",
+            validate: () => {
+                const el = passwordRef.current as HTMLInputElement | null;
+                return !!el?.value.trim();
+            }
         },
         {
             targetRef: cguRef,
-            message: "Il est conseillé de la lire... Mais surtout, la valider."
+            message: "Il est conseillé de la lire... Mais surtout, la valider.",
+            validate: () => {
+                const el = cguRef.current as HTMLInputElement | null;
+                return !!el?.value.trim();
+            }            
         }
     ];
     
-
     const handleRegister = async (event: React.FormEvent) => {
         event.preventDefault();
         setErrorMessage("");
@@ -143,9 +159,8 @@ const RegisterPage:  React.FC = () => {
                     setNewUsername(e.target.value);
                     setFieldErrors(prev => ({ ...prev, newUsername: false}))
                 }}
-                minLength={8}
+                minLength={3}
                 maxLength={24}
-                required
                 placeholder="Nom d'utilisateur"/>
                 <InputField
                 ref={emailRef}
@@ -160,7 +175,6 @@ const RegisterPage:  React.FC = () => {
                 }}
                 minLength={3}
                 maxLength={24}
-                required
                 placeholder="nehendertus@tribut.org"/>
                 <InputField
                 ref={passwordRef}
@@ -175,7 +189,6 @@ const RegisterPage:  React.FC = () => {
                 }}
                 minLength={8}
                 maxLength={24}
-                required
                 placeholder="Mot de passe" />
                 <InputField
                 type="password" 
@@ -189,20 +202,21 @@ const RegisterPage:  React.FC = () => {
                 }}
                 minLength={8}
                 maxLength={24}
-                required
                 placeholder="Confirmer Mot de passe"/>
                 <div className="underform-menu register">
-                    <input
+                    <CheckboxField
+                    checked={acceptCGU}
                     ref={cguRef} 
-                    type="checkbox" 
+                    onChange={(e) => setAcceptCGU(e.target.checked)}
+                    label="J'accepte les CGU"
                     className="acceptCGU"
-                    required
                     />
-                       <label htmlFor="acceptCGU"> Lu et accepter la CGU {" "}</label>
                 </div>
-                <GoldenButton variant="register" type="submit"></GoldenButton>
-                <div className="register-submit">
-                <ShineLink to="/">Se connecter</ShineLink>
+
+                    <GoldenButton className="register-submit" variant="register" type="submit"/>
+
+                <div className="switch-page register">
+                    <ShineLink to="/">Se connecter</ShineLink>
                 </div>
             </form>
             {successMessage && (
@@ -212,7 +226,7 @@ const RegisterPage:  React.FC = () => {
              )}
              <Footer/>
         </div>
-    )}
+)};
 
 
 export default RegisterPage;

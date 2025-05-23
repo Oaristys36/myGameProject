@@ -3,7 +3,7 @@ import { isValidUsernameForLogin, isValidPasswordForLogin, runValidators, getFie
 import { GoldenButton, ShineLink, GoogleButton, AppleButton } from "../components/Buttons";
 import { TopBar } from "../components/topBar";
 import { Footer } from "../components/Footer"; 
-import { InputField } from "../components/InputField";
+import { CheckboxField, InputField } from "../components/InputField";
 
 type LoginResponse = {
     success: boolean;
@@ -17,6 +17,7 @@ const LoginPage: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [fieldErrors, setFieldErrors] = useState<{username?: boolean, password?: boolean}>({});
     const [submitted, setSubmitted] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
 
     const handleLogin = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -119,8 +120,11 @@ const LoginPage: React.FC = () => {
                 />
                 <div className="underform-menu login">
                     <label>
-                        <input type="checkbox"/>
-                        Se souvenir
+                        <CheckboxField
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                        label="Se souvenir"
+                        />
                     </label>
                     <ShineLink to="/RecoveryPage"> Mot de passe oublié ? </ShineLink>
                 </div>
