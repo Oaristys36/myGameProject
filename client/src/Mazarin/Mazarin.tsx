@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MiniMazarinButton } from '../components/Buttons';
+import damerauLevenshtein from "damerau-levenshtein";
 import "./styles/mazarin.css";
 
 type Step = {
@@ -32,6 +33,12 @@ const commonEmailDomains = [
   "laposte.net"
 ];
 
+function penalizeExponentially(mistakes: number, maxAllowed = 10): number {
+  if (mistakes >= maxAllowed) return Infinity;
+  const base = 1.2; // Plus la base est haute, plus c'est sévère
+  return Math.pow(base, mistakes);
+};
+
 function matchLettersContains(email: string): MyPair[] {
     const hasAt = email.includes("@")
     let domainInput = '';
@@ -47,7 +54,7 @@ function matchLettersContains(email: string): MyPair[] {
         const myNewPairs: MyPair[] = [];
 
         for(const domain of commonEmailDomains){
-            let mistakes = 0;
+
             let matched = 0;
             const setA = domainInput.toLowerCase();
             const setB = domain.toLocaleLowerCase().split('');
@@ -58,22 +65,20 @@ function matchLettersContains(email: string): MyPair[] {
                 if(index !== -1){
                     matched++;
                     domainLettersCopy.splice(index, 1);
-                } else {
-                    mistakes++;
                 }
-            }
-            const score = matched / (mistakes + 1);
-            myNewPairs.push({ matched, domain, mistakes: mistakes, score });
-        }
+            };
+
+            const penalty = penalizeExponentially(0, 5);
+            const score = matched / (penalty + 1);
+            myNewPairs.push({ matched, domain, mistakes: 0, score });
+        };
 
         if(myNewPairs.length === 0 ) return [];
-        const bestGuess = myNewPairs.reduce((a, b) => (a.score > b.score ? a : b));
-        console.log(`Domaine: ${bestGuess.domain}, Reussite: ${bestGuess.matched}, Echec: ${bestGuess.mistakes}, TauxTotal: ${bestGuess.score}`);   
-        
+
     return myNewPairs;
 };  
 
-function matchExactSuffix(email: string): MyPair[] {
+function matchExactSuffixFromEnd(email: string): MyPair[] {
     const hasAt = email.includes("@");
     let domainInput = '';
 
@@ -103,7 +108,8 @@ function matchExactSuffix(email: string): MyPair[] {
             }
         }
 
-        const score = matched / (mistakes + 1);
+        let penalty = penalizeExponentially(mistakes, 5);
+        let score = matched / (penalty + 1);
         results.push({ matched, mistakes, domain, score})
     }
 
@@ -128,16 +134,44 @@ function matchDomainLength(email: string): MyPair[] {
         let lengthDifference = Math.abs(domainInput.length - domain.length);
         let mistakes = lengthDifference;
         let matched = Math.min(domainInput.length, domain.length) - mistakes;
-        const score = matched  / (mistakes + 1); 
+        const penalty = penalizeExponentially(mistakes, 5);
+        const score = matched / (penalty + 1);
         results.push({ matched, mistakes, domain, score })  ; 
     };
     return results;
 };
 
+function matchLevenshtein(email: string): MyPair[] {
+    const hasAt = email.includes("@");
+    if (!hasAt) return [];
+
+    let domainInput = '';
+    const parts = email.split("@");
+    if(parts.length === 2){
+        domainInput = parts[1]
+    } else {
+        return [];
+    };
+
+    const results: MyPair[] = [];
+    const matched = 30;
+
+    for(const domain of commonEmailDomains) {
+        let mistakes = damerauLevenshtein(domainInput, domain).steps
+        let penalty = penalizeExponentially(mistakes, 10);
+        let score = matched / ( penalty + 1);
+        results.push({ matched, mistakes, domain, score });
+    }
+
+    return results;
+
+};
+
 function agregateDomainScores(email: string): MyPair[]{
     const lettersScores = matchLettersContains(email);
-    const suffixScores = matchExactSuffix(email);
+    const suffixScores = matchExactSuffixFromEnd(email);
     const lengthScores = matchDomainLength(email);
+    const levenshteinScores = matchLevenshtein(email);
 
     const domainMap: Record<string, MyPair> = {};
 
@@ -159,9 +193,10 @@ function agregateDomainScores(email: string): MyPair[]{
         }
     };
 
-    applyScores(lettersScores, 1);
+    applyScores(lettersScores, 1.5);
     applyScores(suffixScores, 1.5);
-    applyScores(lengthScores, 1.2);
+    applyScores(lengthScores, 0.5);
+    applyScores(levenshteinScores, 2);
 
     return Object.values(domainMap).sort((a, b) => b.score - a.score);
 };
@@ -229,14 +264,15 @@ export const Mazarin: React.FC<MazarinProps> = ({ steps, onFinish }) => {
     const bubbleRef = useRef<HTMLDivElement>(null);
     const lastTargetRef = useRef<HTMLElement | null>(null);
 
-    const email1 = "paul.benard33@geefl.com";
-    const email2 = "paul.benard33@gil.com";
-    const suggestion1 = agregateDomainScores(email1);
-    const suggestion2 = agregateDomainScores(email2);
-    if(suggestion1 || suggestion2){
-        console.log("Suggestion 1 :", suggestion1);
-        console.log("Suggestion 2 :", suggestion2);
-    };
+    const emailToTest = [
+        "paul.benard33@outdf.com",
+    ];
+    for(const email of emailToTest){
+        let suggestion = agregateDomainScores(email);
+        console.log("Suggestion : ",  suggestion);
+        console.log("Email : ", email);
+    }
+    
 
     useEffect(() => {
         if(minimized) return;

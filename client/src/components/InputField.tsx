@@ -1,6 +1,8 @@
 import React from 'react';
 import '../styles/input.css';
 
+// TODO: Modify input focus leaving to hide border
+
 type InputFieldProps = {
     value: string,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
