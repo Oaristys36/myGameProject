@@ -1,4 +1,4 @@
-import {useState, useRef } from "react";
+import {useState, useRef, useEffect } from "react";
 import { isValidUsernameForRegister, isValidPasswordForRegister, runValidators, isValidEmail, getFieldColorStatus } from "../../src/utils/userUtils";
 import { GoldenButton, ShineLink } from "../components/Buttons";
 import { CheckboxField, InputField } from "../components/InputField";
@@ -22,13 +22,12 @@ const RegisterPage:  React.FC = () => {
     const [successMessage, setSuccessMessage] = useState("");
     const [fieldErrors, setFieldErrors] = useState<{newUsername?: boolean, newPassword?: boolean, confirmePassword?: boolean, newMail?: boolean}>({});
     const [submitted, setSubmitted] = useState(false);
-    const [acceptCGU, setAcceptCGU] = useState(false);
+    const [acceptCGU, setAcceptCGU] = useState(false);;
     const usernameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const cguRef = useRef<HTMLInputElement>(null);
-    const suggestion = useEmailSuffixSuggestion(newMail);
-
+    const {suggestion, correction, clearCorrection} = useEmailSuffixSuggestion(newMail);
     const atIndex = newMail.indexOf("@");
     const base = atIndex !== -1 ? newMail.slice(0, atIndex + 1) : newMail;
     const suffixTyped = atIndex !== -1 ? newMail.slice(atIndex + 1) : '' ;
@@ -142,6 +141,12 @@ const RegisterPage:  React.FC = () => {
             console.error("Erreur réseau ou serveur : ", err);
             setErrorMessage("Erreur réseau. Veuillez réessayer plus tard.");
         }
+
+        useEffect(() => {
+        if (correction && newMail === base + correction) {
+            clearCorrection();
+        }
+        }, [newMail, correction]);
     };
 
     return (
@@ -172,11 +177,13 @@ const RegisterPage:  React.FC = () => {
                     <InputField
                     ref={emailRef}
                     type="email" 
-                    className={submitted && fieldErrors.newMail ? "input error-border" : "register-input"} 
+                    className={submitted && fieldErrors.newMail ? "input error-border" : "register-input"}
                     value={newMail} 
                     onChange={(e) =>{ 
-                        setNewMail(e.target.value.toLowerCase())
-                        setFieldErrors(prev => ({ ...prev, newMail: false}))
+                        const val = e.target.value.toLowerCase();
+                        setNewMail(val);
+                        setFieldErrors(prev => ({ ...prev, newMail: false}));
+                        clearCorrection();
                     }}
                     minLength={3}
                     maxLength={24}
@@ -185,9 +192,16 @@ const RegisterPage:  React.FC = () => {
                     autoCorrect="off" 
                     autoComplete="off" 
                     onKeyDown={(e) => {
-                        if(suggestionText && (e.key === "Tab" || e.key==="Enter")) {
+                        if ((e.key === "Tab" || e.key === "Enter") && suggestionText && !correction) {
                             e.preventDefault();
                             setNewMail(base + suffixTyped + suggestionText);
+                            clearCorrection();
+                        } else if ((e.key === "Tab" || e.key === "Enter") && correction && !suggestionText) {
+                            e.preventDefault();
+                            clearCorrection();
+                        } else if (e.key === "Escape") {
+                            setNewMail(base + suffixTyped); 
+                            clearCorrection();
                         }
                     }}   
                     >
@@ -196,6 +210,14 @@ const RegisterPage:  React.FC = () => {
                             {base}
                             <span className="typed">{suffixTyped}</span>
                             <span className="suggested">{suggestionText}</span>
+                        </div>
+                    )}
+                    {correction && (
+                          <div className="register-correction-overlay">
+                            <span className="overlay-gray">
+                            {base}
+                            <span className="typed">{correction}</span>
+                            </span>
                         </div>
                     )}   
                     </InputField>
@@ -249,6 +271,5 @@ const RegisterPage:  React.FC = () => {
              <Footer/>
         </div>
 )};
-
 
 export default RegisterPage;

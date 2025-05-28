@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MiniMazarinButton } from '../components/Buttons';
 import "./styles/mazarin.css";
+const PROGRESS_KEY = "mazarinStep";
 
 type Step = {
     targetRef: React.RefObject<HTMLElement | null>;
@@ -12,8 +13,6 @@ type MazarinProps = {
     steps: Step[];
     onFinish: () => void;
 };
-
-const PROGRESS_KEY = "mazarinStep";
 
 function getMazarinInState() {
     const saved = localStorage.getItem("mazarinStep");

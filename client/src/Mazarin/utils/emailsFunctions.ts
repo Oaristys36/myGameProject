@@ -1,6 +1,7 @@
 import damerauLevenshtein from "damerau-levenshtein";
 import { commonEmailDomains, domainExtension, domainRoots } from "./emailDomain";
 import {useState, useEffect } from 'react';
+import { CgPacman } from "react-icons/cg";
 
 type MyPair = {
     matched: number,
@@ -9,13 +10,13 @@ type MyPair = {
     score: number,
 };
 
-export function penalizeExponentially(mistakes: number, maxAllowed = 10): number {
+function penalizeExponentially(mistakes: number, maxAllowed = 10): number {
   if (mistakes >= maxAllowed) return Infinity;
   const base = 1.2; // Plus la base est haute, plus c'est sévère
   return Math.pow(base, mistakes);
 };
 
-export function matchLettersContains(email: string): MyPair[] {
+function matchLettersContains(email: string): MyPair[] {
     const hasAt = email.includes("@")
     let domainInput = '';
     if(!hasAt) return [];
@@ -54,7 +55,7 @@ export function matchLettersContains(email: string): MyPair[] {
     return myNewPairs;
 };  
 
-export function matchExactSuffixFromEnd(email: string): MyPair[] {
+function matchExactSuffixFromEnd(email: string): MyPair[] {
     const hasAt = email.includes("@");
     let domainInput = '';
 
@@ -92,7 +93,7 @@ export function matchExactSuffixFromEnd(email: string): MyPair[] {
   return results;
 };
 
-export function matchDomainLength(email: string): MyPair[] {
+function matchDomainLength(email: string): MyPair[] {
     const hasAt = email.includes("@");
     if(!hasAt) return [];
 
@@ -117,7 +118,7 @@ export function matchDomainLength(email: string): MyPair[] {
     return results;
 };
 
-export function matchLevenshtein(email: string): MyPair[] {
+function matchLevenshtein(email: string): MyPair[] {
     const hasAt = email.includes("@");
     if (!hasAt) return [];
 
@@ -143,7 +144,7 @@ export function matchLevenshtein(email: string): MyPair[] {
 
 };
 
-export function agregateDomainScores(email: string): MyPair[]{
+function agregateDomainScores(email: string): MyPair[]{
     const lettersScores = matchLettersContains(email);
     const suffixScores = matchExactSuffixFromEnd(email);
     const lengthScores = matchDomainLength(email);
@@ -176,21 +177,32 @@ export function agregateDomainScores(email: string): MyPair[]{
 
     return Object.values(domainMap).sort((a, b) => b.score - a.score);
 };
+
+export function getBestDomainSuggestion(email: string): MyPair | null{
+    const scores = agregateDomainScores(email);
+    if(scores.length === 0) return null;
+
+    const bestScore = scores[0];
+    return bestScore.score > 24 ? bestScore : null;
+};
  
 export function useEmailSuffixSuggestion(email: string, minChars = 2){
     const [suggestion, setSuggestion] = useState<string | null>(null);
+    const [correction, setCorrection] = useState<string | null>(null);
 
     useEffect(() => {
         const atIndex = email.indexOf("@");
         if(atIndex === -1 || atIndex === email.length -1) {
             setSuggestion(null);
+            setCorrection(null);
             return;
         };
-
+        
         const suffixTyped = email.slice(atIndex + 1).toLowerCase();
 
         if (suffixTyped.length < minChars) {
             setSuggestion(null);
+            setCorrection(null);
             return;
         };
 
@@ -201,23 +213,19 @@ export function useEmailSuffixSuggestion(email: string, minChars = 2){
             return;
         }; 
 
-      if(!suffixTyped.includes(".")){
-        const rootMatch = domainRoots.find((root) => root.startsWith(suffixTyped));
+        const [maybeRoot, maybeExtension] = suffixTyped.split(".");
+        if(!suffixTyped.includes(".")){
+            const rootMatch = domainRoots.find((root) => root.startsWith(suffixTyped));
             if(rootMatch){
-                setSuggestion(rootMatch + ".");
+                setSuggestion(rootMatch);
                 return;
             }
-      };
-
-      const [maybeRoot, maybeExtension] = suffixTyped.split(".");
-      if( maybeRoot && maybeExtension !== undefined) {
-        const fullMatch = domainRoots
-        .flatMap((root) => 
-        domainExtension.map((ext) => root + ext)
-        )
-        .find((fullDomain) => 
-        fullDomain.startsWith(suffixTyped)
-        );
+        } 
+        
+        if( maybeRoot && maybeExtension !== undefined) {
+            const fullMatch = domainRoots
+            .flatMap((root) => domainExtension.map((ext) => root + ext))
+            .find((fullDomain) => fullDomain.startsWith(suffixTyped));
 
         if(fullMatch){
             setSuggestion(fullMatch);
@@ -225,9 +233,19 @@ export function useEmailSuffixSuggestion(email: string, minChars = 2){
         }
       }
 
+      const correctionResult = getBestDomainSuggestion(email);
+      if(correctionResult){
+        setCorrection(correctionResult.domain);
+        setSuggestion(null);
+        return;
+      }
+
     setSuggestion(null);
-        
+    setCorrection(null);
+
     }, [email, minChars]);
 
-    return suggestion;
+    const clearCorrection = () => setCorrection(null);
+
+    return {suggestion, correction, clearCorrection };
 };
