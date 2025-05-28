@@ -22,14 +22,16 @@ input {
 input:focus {
   outline: none;
   border: 2px solid #2d79f3;
-  background-color: rgba(246, 246, 246, 0.337);
+  background-color: rgba(100, 97, 97, 0.337);
   transition: background-color 0.3s ease;
 }
 
 input:hover {
   background-color: rgba(26, 25, 25, 0.233);
   border: 2px solid #2d79f3;
-  box-shadow: 0 0 20px rgba(220, 221, 221, 0.5);
+  box-shadow:         
+        0 0 15px rgba(255, 255, 255, 0.651),
+        0 0 25px rgba(255, 255, 255, 0.705);
   transition: background-color 0.3s ease;
 }
 

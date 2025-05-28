@@ -78,12 +78,12 @@
 .mazarin-highlight {
   position: relative;
   transform: scale(1.15);
-  border: 2px solid #2d79f3;
+  border: 1px solid #2d79f3;
   transition: all 1s ease;
   box-shadow:
         0 0 15px rgba(255, 255, 255, 0.651),
         0 0 25px rgba(255, 255, 255, 0.705);
-  background-color: rgba(8, 8, 8, 0.247);
+  background-color: rgba(8, 8, 8, 0.288);
   backdrop-filter: none;
   z-index: 1010;
 }

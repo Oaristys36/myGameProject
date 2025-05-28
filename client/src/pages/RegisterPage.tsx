@@ -5,6 +5,7 @@ import { CheckboxField, InputField } from "../components/InputField";
 import { Footer } from "../components/Footer";
 import { TopBar } from "../components/topBar";
 import { Mazarin } from "../Mazarin/Mazarin";
+import { useEmailSuffixSuggestion } from "../Mazarin/utils/emailsFunctions";
 
 type RegisterResponse = {
     success: boolean; 
@@ -26,6 +27,12 @@ const RegisterPage:  React.FC = () => {
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const cguRef = useRef<HTMLInputElement>(null);
+    const suggestion = useEmailSuffixSuggestion(newMail);
+
+    const atIndex = newMail.indexOf("@");
+    const base = atIndex !== -1 ? newMail.slice(0, atIndex + 1) : newMail;
+    const suffixTyped = atIndex !== -1 ? newMail.slice(atIndex + 1) : '' ;
+    const suggestionText = suggestion?.slice(suffixTyped.length) || '';
 
     const steps = [
         {
@@ -162,20 +169,36 @@ const RegisterPage:  React.FC = () => {
                 minLength={3}
                 maxLength={24}
                 placeholder="Nom d'utilisateur"/>
-                <InputField
-                ref={emailRef}
-                type="email" 
-                className={submitted && fieldErrors.newMail ? "input error-border" : "input"} 
-                autoCapitalize="none"  
-                autoCorrect="off" 
-                value={newMail} 
-                onChange={(e) =>{ 
-                    setNewMail(e.target.value.toLowerCase())
-                    setFieldErrors(prev => ({ ...prev, newMail: false}))
-                }}
-                minLength={3}
-                maxLength={24}
-                placeholder="nehendertus@tribut.org"/>
+                    <InputField
+                    ref={emailRef}
+                    type="email" 
+                    className={submitted && fieldErrors.newMail ? "input error-border" : "register-input"} 
+                    value={newMail} 
+                    onChange={(e) =>{ 
+                        setNewMail(e.target.value.toLowerCase())
+                        setFieldErrors(prev => ({ ...prev, newMail: false}))
+                    }}
+                    minLength={3}
+                    maxLength={24}
+                    placeholder="nehendertus@tribut.org"
+                    autoCapitalize="none"  
+                    autoCorrect="off" 
+                    autoComplete="off" 
+                    onKeyDown={(e) => {
+                        if(suggestionText && (e.key === "Tab" || e.key==="Enter")) {
+                            e.preventDefault();
+                            setNewMail(base + suffixTyped + suggestionText);
+                        }
+                    }}   
+                    >
+                    {suggestionText && (
+                        <div className="email-suggestion-overlay">
+                            {base}
+                            <span className="typed">{suffixTyped}</span>
+                            <span className="suggested">{suggestionText}</span>
+                        </div>
+                    )}   
+                    </InputField>
                 <InputField
                 ref={passwordRef}
                 type="password"  
@@ -189,7 +212,7 @@ const RegisterPage:  React.FC = () => {
                 }}
                 minLength={8}
                 maxLength={24}
-                placeholder="Mot de passe" />
+                placeholder="Mot de passe"/>
                 <InputField
                 type="password" 
                 className={submitted && fieldErrors.confirmePassword ? "input error-border" : "input"}
@@ -212,7 +235,6 @@ const RegisterPage:  React.FC = () => {
                     className="acceptCGU"
                     />
                 </div>
-
                     <GoldenButton className="register-submit" variant="register" type="submit"/>
 
                 <div className="switch-page register">

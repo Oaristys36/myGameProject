@@ -249,7 +249,7 @@
 /* Mazarin button */ 
 
 .mazarin-button {
-  width: 50px;
+  width: 50px; 
   height: 50px;
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.568);
@@ -268,29 +268,12 @@
 }
 
 .mazarin-button:hover {
-  width: 80px;
-  border-radius: 50px;
   transition-duration: 0.3s;
-  background-color: rgba(45, 44, 48, 0.575);
+  background-color: rgba(31, 27, 27, 0.432);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.651),
+              0 0 25px rgba(255, 255, 255, 0.705);
   align-items: center;
-  font-size: 0;
-}
-
-.mazarin-button::before {
-  position: absolute;
-  bottom: -20px;
-  content: "Mazarin";
-  color: white;
-  /* transition-duration: .3s; */
-  font-size: 0px;
-}
-
-.mazarin-button:hover::before {
-  font-size: 13px;
-  opacity: 1;
-  bottom: unset;
-  /* transform: translateY(-30px); */
-  transition-duration: 0.3s;
+  font-size: 1.3rem;
 }
 
 /* Link to */

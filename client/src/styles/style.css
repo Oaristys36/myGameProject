@@ -157,6 +157,33 @@ html, body {
   gap: 0.2rem;
 }
 
+.register-input {
+  position: relative;
+  background-color: transparent;
+  z-index: 2;
+}
+
+.email-suggestion-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-left: 0.9rem;
+  padding-top: 0.55rem;
+  color: rgba(224, 224, 224, 0);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.email-suggestion-overlay .typed {
+  color: rgba(214, 214, 214, 0);
+  font-size: 1.2rem;
+}
+
+.email-suggestion-overlay .suggested {
+  color: rgba(253, 250, 250, 0.712);
+}
+
+
 .register-submit {
   display: flex;
   flex-direction: column;

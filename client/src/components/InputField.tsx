@@ -19,6 +19,8 @@ type InputFieldProps = {
     disabled?: boolean;
     onFocus?: () => void;
     onBlur?: () => void;
+    onKeyDown?:  (e: React.KeyboardEvent<HTMLInputElement>) => void;
+    children?: React.ReactNode;
 };
 
 type CheckboxFieldProps = {
@@ -31,8 +33,10 @@ type CheckboxFieldProps = {
 }
 
 export const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
-    ({ value, onChange, placeholder = '', type = 'text', name, className = 'input', autoComplete = '', autoCapitalize = 'none', autoCorrect = 'off', minLength, maxLength, required, disabled, onFocus, onBlur }, ref) => {
-        return (
+    ({ value, onChange, onKeyDown, placeholder = '', type = 'text', name, className = 'input', autoComplete = '', autoCapitalize = 'none', autoCorrect = 'off', minLength, maxLength, required, disabled, onFocus, onBlur, children },
+        ref ) => {
+         return (
+        <div className={className}>
         <input
         ref={ref}
         type={type}
@@ -50,9 +54,12 @@ export const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
         disabled={disabled}
         onFocus={onFocus}
         onBlur={onBlur}
-      />
+        onKeyDown={onKeyDown}
+        />
+        {children}
+        </div>
         );
-    }
+    }           
 );
 
 export const CheckboxField = React.forwardRef<HTMLInputElement, CheckboxFieldProps>(
