@@ -1,0 +1,79 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../apps/generated/prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+  saves        Save[]
+}
+
+model Story {
+  id          String      @id @default(cuid())
+  title       String
+  description String
+  imageUrl    String?
+  audioUrl    String?
+  firstNodeId String?     @unique
+  firstNode   StoryNode?  @relation("FirstNode", fields: [firstNodeId], references: [id])
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
+  nodes       StoryNode[]
+  saves       Save[]
+}
+
+model StoryNode {
+  id         String   @id @default(cuid())
+  storyId    String
+  story      Story    @relation(fields: [storyId], references: [id])
+  content    String
+  imageUrl   String?
+  audioUrl   String?
+  choices    Choice[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  StoryFirst Story?   @relation("FirstNode")
+}
+
+model Choice {
+  id         String       @id @default(cuid())
+  nodeId     String
+  node       StoryNode    @relation(fields: [nodeId], references: [id])
+  text       String
+  nextNodeId String
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+  SaveChoice SaveChoice[]
+}
+
+model Save {
+  id            String       @id @default(cuid())
+  userId        String
+  user          User         @relation(fields: [userId], references: [id])
+  storyId       String
+  story         Story        @relation(fields: [storyId], references: [id])
+  currentNodeId String
+  choices       SaveChoice[] // relationnel
+  created_at    DateTime     @default(now())
+  updated_at    DateTime     @updatedAt
+}
+
+model SaveChoice {
+  id       String @id @default(cuid())
+  saveId   String
+  save     Save   @relation(fields: [saveId], references: [id])
+  choiceId String
+  choice   Choice @relation(fields: [choiceId], references: [id])
+  order    Int // permet de garder l’ordre des choix
+}
+
